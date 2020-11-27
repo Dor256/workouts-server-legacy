@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "comma-dangle": ["warn", "never"],
+    "space-before-blocks": "warn", 
+    "eol-last": "off",
+    "prettier/prettier": 0,
+    "no-mixed-spaces-and-tabs": "off",
+    "semi": "warn",
+    "object-curly-spacing": ["warn", "always"]
+  }
+}

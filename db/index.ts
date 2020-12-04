@@ -1,19 +1,35 @@
-import fs from 'fs/promises';
-import path from 'path';
+import Mongoose, { Document, Schema } from 'mongoose';
 
-type DB = IWorkout[];
+const dbUrl = 'mongodb://workouts-db:27017';
+Mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: true });
+
+const WorkoutSchema = new Schema({
+  name: String
+});
+
+const Workout = Mongoose.model<Document & IWorkout>('Program', WorkoutSchema, 'programs');
+
+async function addWorkout(workout: IWorkout) {
+  const newWorkout = new Workout(workout);
+  newWorkout.isNew = true;
+  await newWorkout.save();
+}
+
+async function getWorkoutById(id: string) {
+  return await Workout.findById(id).exec();
+}
+
+async function getWorkoutByName(name: string) {
+  return await Workout.findOne({ name }).exec();
+}
+
+async function getWorkouts() {
+  return await Workout.find().exec();
+}
 
 export type IWorkout = {
   name: string;
 };
-
-async function read(): Promise<DB> {
-  return JSON.parse(await fs.readFile(path.resolve(__dirname, './db.json'), 'utf-8'));
-}
-
-async function write(db: DB): Promise<void> {
-  await fs.writeFile(path.resolve(__dirname, './db.json'), JSON.stringify(db));
-}
 
 type Repository = {
   getWorkouts(): Promise<IWorkout[]>;
@@ -22,13 +38,10 @@ type Repository = {
 
 export const repository: Repository = {
   async getWorkouts(): Promise<IWorkout[]> {
-    return await read();
+    return await getWorkouts();
   },
 
   async addWorkout(workout: IWorkout) {
-    const db = await read();
-    const updatedDB = [...db, workout];
-
-    await write(updatedDB);
+    await addWorkout(workout);
   }
 };

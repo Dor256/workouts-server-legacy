@@ -1,5 +1,6 @@
-export const enum STATUS {
-  OK = 200,
-  NOT_FOUND = 404,
-  BAD_REQUEST = 400
-}
+export const STATUS = {
+  OK: 200,
+  NOT_FOUND: 404,
+  UNAUTHORIZED: 401,
+  BAD_REQUEST: 400
+};

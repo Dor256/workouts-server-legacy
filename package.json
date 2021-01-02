@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Workouts app server",
   "main": "dist/src/index.js",
+  "repository": {
+    "url": "https://github.com/Dor256/workouts-server.git"
+  },
   "scripts": {
     "start": "node dist/src/index.js",
     "start:dev": "npm run build && npm start",

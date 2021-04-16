@@ -11,10 +11,10 @@ authRouter.post('/login', async (req, res) => {
   const { password, email } = req.body;
   const user = await userRepository.getUser(email);
   const authenticated = user?.password === generateHash(password) + user?.salt;
-  if (!authenticated) {
+  if (!authenticated || !user) {
     res.status(STATUS.UNAUTHORIZED).send('Error 401: Unauthorized!');
   } else {
-    res.status(STATUS.OK).send(true); 
+    res.status(STATUS.OK).send({ id: user.id }); 
   }
 });
 

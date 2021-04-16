@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  workouts-server:
+    image: dor256/workouts-server:latest
+    build: .
+    environment: 
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+    links:
+      - workouts-db
+  workouts-db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+
+volumes:
+  data:

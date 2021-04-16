@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { generateHash } from '../../src/utils';
 
 export type IUser = {
+  id: string;
   email: string;
   password: string;
   salt: string;
@@ -14,7 +15,7 @@ const UserSchema = new Schema({
   salt: String
 });
 
-const User = Mongoose.model<Document & IUser>('User', UserSchema, 'users');
+export const User = Mongoose.model<Document & IUser>('User', UserSchema, 'users');
 
 async function getUser(email: string) {
   return await User.findOne({ email }).exec();
